@@ -4,52 +4,68 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class Visuals:
-    #all of this setup was taken from matplotlib docs
+    """
+    - heights: list of floats showing the elevation values (we're only visualizing a sample of them)
+    - index_gen: generator that gives us the next index being visited by the sort algorithm
+    - sample_index: the original indices of the sampled values (used to match them with full dataset changes)
+    - interval: time between animation fames    """
+    
     def __init__(self,
-                 heights: List[float],           # bar heights (sample)
-                 idx_gen: Generator[int | None, None, None],
-                 interval: float = 0.01): #this gives the animation some time to catch up lol
-        self.h = heights
-        self.idx_gen = idx_gen
-        self.interval = interval
+                 heights: List[float],
+                 index_gen: Generator[int | None, None, None],
+                 sample_index: List[int],
+                 interval: float = 0.01):
+        self.h = heights                            # Bar heights for the sample
+        self.index_gen = index_gen                  # Which index is being touched next by the sort
+        self.sample_index = sample_index            # Keeps track of where the sample came from in the big list
+        self.interval = interval                    # Speed of the animation
 
-        # axes setup
+        # Set up the chart
         self.fig, self.ax = plt.subplots(figsize=(9, 4))
         self.bars = self.ax.bar(range(len(heights)), heights, align="edge")
         self.ax.set_xlim(0, len(heights))
         self.ax.set_ylim(min(heights), max(heights))
-        self.ax.set_xticks([]); self.ax.set_ylabel("elevation (m)")
-        self.msg = self.ax.text(0.02, 0.95, "", transform=self.ax.transAxes)
-        self.last: Optional[int] = None          
-        self.ani = None                          
+        self.ax.set_xticks([])                      # no x-axis numbers
+        self.ax.set_ylabel("elevation (m)")
+        self.msg = self.ax.text(0.02, 0.95, "", transform=self.ax.transAxes)  # text box in the corner
 
-    # called each frame
+        self.last: Optional[int] = None             # bar we highlighted in the last frame
+        self.ani = None                             # the animation object itself
+
     def _update(self, curr: int | None):
-        if self.last is not None:                # un‑highlight old one
+        """
+        Updates the bar colors and heights on each frame.
+        Highlights the bar we're currently working with.
+        """
+        # un-highlight the last bar
+        if self.last is not None:
             self.bars[self.last].set_color("steelblue")
 
-        if curr is not None and curr in sample_idx:
-            pos = sample_idx.index(curr)         # bar slot (0‑99)
-            self.bars[pos].set_height(self.h[pos])
-            self.bars[pos].set_color("red")
-            self.msg.set_text(f"visiting {curr}")
+        # if there's a valid index being worked on and it’s in our sample
+        if curr is not None and curr in self.sample_index:
+            pos = self.sample_index.index(curr)        # find position of this bar in the sample
+            self.bars[pos].set_height(self.h[pos])     # update height if it changed
+            self.bars[pos].set_color("red")            # highlight it
+            self.msg.set_text(f"visiting {curr}")      # update message
             self.last = pos
         elif curr is None:
-            self.msg.set_text("done")
+            self.msg.set_text("done")                  # sorting is done!
 
-        return (*self.bars, self.msg)            # blit targets
+        return (*self.bars, self.msg)  # return everything matplotlib needs to re-draw
 
-    # launch animation
     def animate(self):
-        #create the animation object per the matplot lib docs
+        """
+        Starts the animation by connecting the update function with the generator.
+        """
         self.ani = animation.FuncAnimation(
             self.fig,
             self._update,
-            frames=self.idx_gen,
+            frames=self.index_gen,
             interval=self.interval,
             blit=True,
             repeat=False,
             cache_frame_data=False,
         )
-        plt.tight_layout(); plt.show()
+        plt.tight_layout()
+        plt.show()
 

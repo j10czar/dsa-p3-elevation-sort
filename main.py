@@ -7,7 +7,6 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
 from bridges.data_src_dependent import data_source  # NOAA elevations
-import sounddevice as sd
 
 args = sys.argv[1:]  # skip script name
 
@@ -16,7 +15,7 @@ args = sys.argv[1:]  # skip script name
 base_lat = random.uniform(-83,83)
 base_long = random.uniform(-173,173)
 
-
+#step 1 - get the data from a specific grid and flatten it into a single list
 # defines the box where we are taking our coordinates 
 # box size of 5.3x5.3degrees gets us around 100k data points
 bbox = [base_lat, base_long, base_lat+5.3, base_long+5.3]  
@@ -32,12 +31,14 @@ for row in ele_obj.data:
 
 
 # step 2 – keep only 100 bars for the graph (sample mirrors big list)
-def make_sample(arr: List[float], k: int = 100):
+def make_sample(arr, k: int = 100):
     idx = np.linspace(0, len(arr) - 1, k, dtype=int)  # even spread
     return idx.tolist(), [arr[i] for i in idx]        # indices + heights
 
 sample_idx, sample_vals = make_sample(elevations)     # 100‑bar snapshot
 
+
+#step 3, initiazlie our plot and run an algorithm based on user input
 
 if args[0] == "help":
     print("----Help----")
