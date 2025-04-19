@@ -1,11 +1,6 @@
 import heapq
 
 class sort:
-    def __init__(self, arr: List[float], sample_idx: List[int], sample_vals: List[float]):
-        self.arr = arr
-        self.sample_idx = sample_idx
-        self.sample_vals = sample_vals
-
     #   worst & average: O(n^2)
     def bubbleSort(elevations):
         n = len(elevations)
@@ -104,39 +99,27 @@ class sort:
 
     #   average: O(n log n)
     #   worst:   O(n^2)
-    def quickSort(elevations):
-        def _quick(arr):
-            if len(arr) <= 1:
-                return arr
-
-            pivot_index = len(arr) // 2
-            pivot = arr[pivot_index]
-
-            left = []
-            mid = []
-            right = []
-
-            for x in arr:
-                if x < pivot:
-                    left.append(x)
-                elif x == pivot:
-                    mid.append(x)
-                else:
-                    right.append(x)
-
-            sorted_left = _quick(left)
-            sorted_right = _quick(right)
-
-            result = []
-            for item in sorted_left:
-                result.append(item)
-            for item in mid:
-                result.append(item)
-            for item in sorted_right:
-                result.append(item)
-
-            return result
-
-        elevations[:] = _quick(elevations)
-        return elevations
+    def quick(elevations, sample_idx, sample_vals) -> Generator[int | None, None, None]:
+        stack = [(0, len(elevations) - 1)]                # manual recursion bc too lazy to write a helper
+        while stack:
+            lo, hi = stack.pop()
+            if lo >= hi: continue
+            pivot = elevations[(lo + hi) // 2]
+            i, j = lo, hi
+            while i <= j:
+                while elevations[i] < pivot: i += 1
+                while elevations[j] > pivot: j -= 1
+                if i <= j:
+                    swap_i, swap_j = i, j
+                    if swap_i in sample_idx or swap_j in sample_idx:
+                        yield swap_i                     # tell UI to refresh
+                    elevations[i], elevations[j] = elevations[j], elevations[i]
+                    if swap_i in sample_idx:
+                        sample_vals[sample_idx.index(swap_i)] = elevations[swap_i]
+                    if swap_j in sample_idx:
+                        sample_vals[sample_idx.index(swap_j)] = elevations[swap_j]
+                    i += 1; j -= 1
+            if lo < j: stack.append((lo, j))
+            if i < hi: stack.append((i, hi))
+        yield None
 
