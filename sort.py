@@ -1,6 +1,10 @@
 import heapq
 
 class sort:
+    def __init__(self, arr: List[float], sample_idx: List[int], sample_vals: List[float]):
+        self.arr = arr
+        self.sample_idx = sample_idx
+        self.sample_vals = sample_vals
 
     #   worst & average: O(n^2)
     def bubbleSort(elevations):

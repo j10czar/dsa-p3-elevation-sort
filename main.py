@@ -1,5 +1,16 @@
 from bridges.data_src_dependent import data_source
 import random
+import sys
+from __future__ import annotations     # forward type refs
+from typing import Generator, List, Optional
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
+from bridges.data_src_dependent import data_source  # NOAA elevations
+import sounddevice as sd
+
+args = sys.argv[1:]  # skip script name
+
 
 #pick a random latitude and longitude value to start with 
 base_lat = random.uniform(-83,83)
@@ -12,11 +23,32 @@ bbox = [base_lat, base_long, base_lat+5.3, base_long+5.3]
 ele_obj = data_source.get_elevation_data(bbox)
 
 #now we need to put all of our elevation data into one list 
-flat_data = []
+elevations = []
 for row in ele_obj.data:
     for val in row:
-        flat_data.append(val)
+        elevations.append(val)
 
 
-print(len(flat_data))
+
+
+# step 2 – keep only 100 bars for the graph (sample mirrors big list)
+def make_sample(arr: List[float], k: int = 100):
+    idx = np.linspace(0, len(arr) - 1, k, dtype=int)  # even spread
+    return idx.tolist(), [arr[i] for i in idx]        # indices + heights
+
+sample_idx, sample_vals = make_sample(elevations)     # 100‑bar snapshot
+
+
+if args[0] == "help":
+    print("----Help----")
+elif args[0] == "insertion":
+
+elif args[0] == "selection":
+
+elif args[0] == "bubble":
+elif args[0] == "quick":
+elif args[0] == "heap":
+elif args[0] == "merge":
+else:
+    print("Please pass in a sorting algorithm! Or run the command with help to see possible algorithms.")
 
