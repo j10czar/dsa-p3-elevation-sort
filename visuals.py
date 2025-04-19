@@ -23,5 +23,33 @@ class Visuals:
         self.last: Optional[int] = None          
         self.ani = None                          
 
+    # called each frame
+    def _update(self, curr: int | None):
+        if self.last is not None:                # un‑highlight old one
+            self.bars[self.last].set_color("steelblue")
 
+        if curr is not None and curr in sample_idx:
+            pos = sample_idx.index(curr)         # bar slot (0‑99)
+            self.bars[pos].set_height(self.h[pos])
+            self.bars[pos].set_color("red")
+            self.msg.set_text(f"visiting {curr}")
+            self.last = pos
+        elif curr is None:
+            self.msg.set_text("done")
+
+        return (*self.bars, self.msg)            # blit targets
+
+    # launch animation
+    def animate(self):
+        #create the animation object per the matplot lib docs
+        self.ani = animation.FuncAnimation(
+            self.fig,
+            self._update,
+            frames=self.idx_gen,
+            interval=self.interval,
+            blit=True,
+            repeat=False,
+            cache_frame_data=False,
+        )
+        plt.tight_layout(); plt.show()
 
