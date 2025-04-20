@@ -3,6 +3,9 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
 import time
+import requests
+import unicodedata
+
 
 class Visuals:
     """
@@ -15,11 +18,15 @@ class Visuals:
                  heights: List[float],
                  index_gen: Generator[int | None, None, None],
                  sample_index: List[int],
+                 elevations: List[float],
+                 coord_lookup: dict[float, tuple[float, float]],
                  interval: float = 0.01):
         self.h = heights                            # Bar heights for the sample
         self.index_gen = index_gen                  # Which index is being touched next by the sort
         self.sample_index = sample_index            # Keeps track of where the sample came from in the big list
         self.interval = interval                    # Speed of the animation
+        self.elevations = elevations
+        self.coord_lookup = coord_lookup
 
         # Set up the chart
         self.fig, self.ax = plt.subplots(figsize=(9, 4))
@@ -35,6 +42,29 @@ class Visuals:
         self.ani = None                             # the animation object itself
         self.start = 0.00
         self.end = 0.00
+
+    def getLocationName(self, latitude: float, longitude: float):
+        url = "https://nominatim.openstreetmap.org/reverse"
+        params = {
+            "lat": latitude,
+            "lon": longitude,
+            "format": "json",
+            "zoom": 10, 
+            "addressdetails": 1,
+            "accept-language": "en"  # force English result
+        }
+
+        headers = {
+            "User-Agent": "P3-Elevation-Sorter/1.0 (jasontenczar@ufl.edu)"
+        }
+
+        try:
+            response = requests.get(url, params=params, headers=headers)
+            data = response.json()
+            return data["display_name"]        
+        except Exception as e:
+            return "Rural or Ocean Area"
+
 
     def _update(self, curr: int | None):
         """
@@ -54,8 +84,12 @@ class Visuals:
             self.last = pos
         elif curr is None:
             self.end = time.time()
+            highest = self.elevations[-1]
+            latitude, longitude = self.coord_lookup[highest] #allows for lat and lon lookup in O(1) time
+            location_name = self.getLocationName(latitude, longitude) 
             time_msg = "Done in "+str(round(self.end-self.start,2))+"s" 
-            self.msg.set_text(time_msg)                  # sorting is done!
+            location_msg = f" / Highest Elevation: {round(highest, 2)}m at {location_name}"
+            self.msg.set_text(time_msg + location_msg)                  # sorting is done!
 
         return (*self.bars, self.msg)  # return everything matplotlib needs to re-draw
 
