@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 import requests
+import unicodedata
+
 
 class Visuals:
     """
@@ -48,7 +50,8 @@ class Visuals:
             "lon": longitude,
             "format": "json",
             "zoom": 10, 
-            "addressdetails": 1
+            "addressdetails": 1,
+            "accept-language": "en"  # force English result
         }
 
         headers = {
@@ -58,7 +61,7 @@ class Visuals:
         try:
             response = requests.get(url, params=params, headers=headers)
             data = response.json()
-            return data["display_name"]
+            return data["display_name"]        
         except Exception as e:
             return "Rural or Ocean Area"
 
