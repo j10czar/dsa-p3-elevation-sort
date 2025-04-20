@@ -45,6 +45,15 @@ def main():
     bbox = [base_lat, base_long, base_lat+5.3, base_long+5.3]  
     ele_obj = data_source.get_elevation_data(bbox)
 
+#this will generate an OSM link so users can see what box they are sorting from 
+    center_lat = base_lat + 5.3 / 2
+    center_long = base_long + 5.3 / 2
+    zoom = 7 #around a 5.3x5.3 grid
+
+    osm_url = f"https://www.openstreetmap.org/#map={zoom}/{center_lat:.4f}/{center_long:.4f}"
+    print("View bounding box on map:", osm_url)
+
+
     #i also want to put each elevation in a map with the elevation as the key and the latitude and longidude as the value
     #this will help later when we find the location with the highest altidude in O(1) time
 

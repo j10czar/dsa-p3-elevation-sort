@@ -63,7 +63,7 @@ class Visuals:
             data = response.json()
             return data["display_name"]        
         except Exception as e:
-            return "Rural or Ocean Area"
+            return "Unnamed/Ocean Area"
 
 
     def _update(self, curr: int | None):
