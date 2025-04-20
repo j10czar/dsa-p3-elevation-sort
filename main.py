@@ -88,23 +88,23 @@ def main():
     if args[0] == "help":
         printHelp()
     elif args[0] == "insertion":
-        Visuals(sample_vals, sort.insertion(elevations, sample_idx, sample_vals), sample_idx).animate()
+        Visuals(sample_vals, sort.insertion(elevations, sample_idx, sample_vals), sample_idx, elevations, coord_lookup).animate()
 
 
     elif args[0] == "selection":
-        Visuals(sample_vals, sort.selection(elevations, sample_idx, sample_vals), sample_idx).animate()
+        Visuals(sample_vals, sort.selection(elevations, sample_idx, sample_vals), sample_idx, elevations, coord_lookup).animate()
 
 
     elif args[0] == "bubble":
-        Visuals(sample_vals, sort.bubble(elevations, sample_idx, sample_vals), sample_idx).animate()
+        Visuals(sample_vals, sort.bubble(elevations, sample_idx, sample_vals), sample_idx, elevations, coord_lookup).animate()
 
     elif args[0] == "quick":
-        Visuals(sample_vals, sort.quick(elevations, sample_idx, sample_vals), sample_idx).animate()
+        Visuals(sample_vals, sort.quick(elevations, sample_idx, sample_vals), sample_idx, elevations, coord_lookup).animate()
     elif args[0] == "heap":
-        Visuals(sample_vals, sort.heap(elevations, sample_idx, sample_vals), sample_idx).animate()
+        Visuals(sample_vals, sort.heap(elevations, sample_idx, sample_vals), sample_idx, elevations, coord_lookup).animate()
 
     elif args[0] == "merge":
-        Visuals(sample_vals, sort.merge(elevations, sample_idx, sample_vals), sample_idx).animate()
+        Visuals(sample_vals, sort.merge(elevations, sample_idx, sample_vals), sample_idx, elevations, coord_lookup).animate()
 
   
 
