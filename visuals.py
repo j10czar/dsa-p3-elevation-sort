@@ -22,6 +22,7 @@ class Visuals:
 
         # Set up the chart
         self.fig, self.ax = plt.subplots(figsize=(9, 4))
+        self.fig.canvas.manager.set_window_title("P3 - Elevation Sorting - Jason Tenczar")
         self.bars = self.ax.bar(range(len(heights)), heights, align="edge")
         self.ax.set_xlim(0, len(heights))
         self.ax.set_ylim(min(heights), max(heights))
