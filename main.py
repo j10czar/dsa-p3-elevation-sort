@@ -106,9 +106,7 @@ def main():
     elif args[0] == "merge":
         Visuals(sample_vals, sort.merge(elevations, sample_idx, sample_vals), sample_idx).animate()
 
-    else:
-        print("Please pass in a sorting algorithm! Or run the command with help to see possible algorithms.")
-
+  
 
 
 if __name__ == "__main__":
