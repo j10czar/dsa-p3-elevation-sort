@@ -45,11 +45,32 @@ def main():
     bbox = [base_lat, base_long, base_lat+5.3, base_long+5.3]  
     ele_obj = data_source.get_elevation_data(bbox)
 
-#now we need to put all of our elevation data into one list 
+    #i also want to put each elevation in a map with the elevation as the key and the latitude and longidude as the value
+    #this will help later when we find the location with the highest altidude in O(1) time
+
+    dimension = len(ele_obj.data)
+
+    print("Dataset size: ", dimension*dimension)
+
+    coord_step = 5.3/dimension #how much we are moving the latitude or longitude by when we move in each direction of the matrix
+
+    #will be used later to find the location with the highest elevation
+    coord_lookup = {}
+    
+    #latidue is row, longitude are columns
+    #runs in O(n) to flatten our data and put it in a map for later
+    #now we need to put all of our elevation data into one list 
+
     elevations = []
-    for row in ele_obj.data:
-        for val in row:
-            elevations.append(val)
+    for i in range(dimension):
+        for j in range(dimension):
+            elevation = ele_obj.data[i][j]
+            elevations.append(elevation)
+            latitude = base_lat + coord_step*i
+            longitude = base_long + coord_step*j
+            coord_lookup[elevation] = (latitude,longitude)
+
+
 
 
 
