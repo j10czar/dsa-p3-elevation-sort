@@ -48,11 +48,13 @@ def main():
     #i also want to put each elevation in a map with the elevation as the key and the latitude and longidude as the value
     #this will help later when we find the location with the highest altidude in O(1) time
 
-    dimension = len(ele_obj.data)
+    lat_len = len(ele_obj.data)
+    lon_len = len(ele_obj.data[0])
 
-    print("Dataset size: ", dimension*dimension)
+    print("Dataset size: ", lat_len*lon_len)
 
-    coord_step = 5.3/dimension #how much we are moving the latitude or longitude by when we move in each direction of the matrix
+    lat_step = 5.3/lat_len #how much we are moving the latitude or longitude by when we move in each direction of the matrix
+    lon_step = 5.3/lon_len
 
     #will be used later to find the location with the highest elevation
     coord_lookup = {}
@@ -62,12 +64,12 @@ def main():
     #now we need to put all of our elevation data into one list 
 
     elevations = []
-    for i in range(dimension):
-        for j in range(dimension):
+    for i in range(lat_len):
+        for j in range(lon_len):
             elevation = ele_obj.data[i][j]
             elevations.append(elevation)
-            latitude = base_lat + coord_step*i
-            longitude = base_long + coord_step*j
+            latitude = base_lat + lat_step*i
+            longitude = base_long + lon_step*j
             coord_lookup[elevation] = (latitude,longitude)
 
 
