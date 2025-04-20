@@ -90,6 +90,14 @@ class Visuals:
             time_msg = "Done in "+str(round(self.end-self.start,2))+"s" 
             location_msg = f" / Highest Elevation: {round(highest, 2)}m at {location_name}"
             self.msg.set_text(time_msg + location_msg)                  # sorting is done!
+            zoom = 12 #around a 5.3x5.3 grid
+
+            osm_url = f"https://www.openstreetmap.org/?mlat={latitude:.4f}&mlon={longitude:.4f}#map={zoom}/{latitude:.4f}/{longitude:.4f}"            
+            print("View highest point on map:", osm_url)
+
+
+
+
 
         return (*self.bars, self.msg)  # return everything matplotlib needs to re-draw
 
