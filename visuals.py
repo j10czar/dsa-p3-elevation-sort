@@ -2,6 +2,7 @@ from typing import Generator, List, Optional
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 class Visuals:
     """
@@ -32,6 +33,8 @@ class Visuals:
 
         self.last: Optional[int] = None             # bar we highlighted in the last frame
         self.ani = None                             # the animation object itself
+        self.start = 0.00
+        self.end = 0.00
 
     def _update(self, curr: int | None):
         """
@@ -50,7 +53,9 @@ class Visuals:
             self.msg.set_text(f"visiting {curr}")      # update message
             self.last = pos
         elif curr is None:
-            self.msg.set_text("done")                  # sorting is done!
+            self.end = time.time()
+            time_msg = "Done in "+str(round(self.end-self.start,2))+"s" 
+            self.msg.set_text(time_msg)                  # sorting is done!
 
         return (*self.bars, self.msg)  # return everything matplotlib needs to re-draw
 
@@ -58,6 +63,8 @@ class Visuals:
         """
         Starts the animation by connecting the update function with the generator.
         """
+        self.start = time.time()
+
         self.ani = animation.FuncAnimation(
             self.fig,
             self._update,
