@@ -1,5 +1,10 @@
 # Elevation Data Sorting Visualizer 🌎📊
 
+Live Demo Video: https://www.youtube.com/watch?v=Vpd3DNyJ0XE
+
+<img width="1455" alt="image" src="https://github.com/user-attachments/assets/f888c277-d138-4514-aa47-4c7ac5eac2f3" />
+
+
 A Python-based project that demonstrates how common sorting algorithms work — using real elevation data from NOAA’s global elevation dataset. This project visualizes the step-by-step sorting of elevation values sampled from randomly selected geographic coordinates, making it easier to understand how each algorithm functions.
 
 ---
