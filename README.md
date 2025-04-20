@@ -1,4 +1,4 @@
-# Elevation Data Sorting Visualizer 🌎📊
+# Elevation Data Sorting Visualizer
 
 Live Demo Video: https://www.youtube.com/watch?v=Vpd3DNyJ0XE
 
@@ -9,13 +9,13 @@ A Python-based project that demonstrates how common sorting algorithms work — 
 
 ---
 
-## 🚩 Problem
+##  Problem
 
 Sorting algorithms can be hard to understand in the abstract. Raw elevation data is also tough to interpret on its own. This project addresses both problems by combining them: visualizing sorting algorithms using real-world elevation data.
 
 ---
 
-## 🎯 Motivation
+##  Motivation
 
 - Help students better understand how sorting algorithms behave over time.
 - Make sense of NOAA elevation data through color-coded visualizations.
@@ -23,7 +23,7 @@ Sorting algorithms can be hard to understand in the abstract. Raw elevation data
 
 ---
 
-## 🧩 Features
+##  Features
 
 - Retrieves elevation data for a random 5.3° x 5.3° bounding box using the [BRIDGES elevation dataset](https://bridgesuncc.github.io/tutorials/Data_Elevation.html).
 - Visualizes a sample of the elevation data as a bar graph using `matplotlib`.
@@ -39,7 +39,7 @@ Sorting algorithms can be hard to understand in the abstract. Raw elevation data
 
 ---
 
-## 🧪 How It Works
+##  How It Works
 
 1. **Data Collection**: Random geographic coordinates are generated and used to pull elevation data from NOAA via the BRIDGES API.
 2. **Flattening**: The elevation grid is flattened into a list for sorting.
@@ -48,7 +48,7 @@ Sorting algorithms can be hard to understand in the abstract. Raw elevation data
 
 ---
 
-## 🛠️ Tools & Libraries
+##  Tools & Libraries
 
 - Python 3.11+
 - [`matplotlib`](https://matplotlib.org/) – for animation/visualization
@@ -58,13 +58,9 @@ Sorting algorithms can be hard to understand in the abstract. Raw elevation data
 
 ---
 
-## 🧑‍💻 Setup Instructions
+##  Setup Instructions
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/elevation-sort-visualizer.git
-   cd elevation-sort-visualizer
-   ```
 
 2. Create and activate a virtual environment:
    ```bash
@@ -82,32 +78,4 @@ Sorting algorithms can be hard to understand in the abstract. Raw elevation data
    python main.py quick     # options: quick, heap, merge, bubble, insertion, selection
    ```
 
----
 
-## 📍 Example Output
-
-After the animation, you'll see:
-- How the sort progressed
-- Time taken to complete
-- Location of the highest elevation in that area
-- A link to the map view on OpenStreetMap
-
----
-
-## 👨‍🏫 Author
-
-Jason Tenczar  
-Lead Developer and Visualization Designer
-
----
-
-## 📚 References
-
-- [NOAA ETOPO1 Dataset via BRIDGES](https://bridgesuncc.github.io/tutorials/Data_Elevation.html)
-- Sorting visualizer inspiration: [Tech With Tim Sorting Visualizer](https://github.com/techwithtim/Sorting-Algorithm-Visualizer)
-
----
-
-## 📄 License
-
-This project is open-source and available under the MIT License.
